@@ -8,6 +8,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
@@ -34,11 +35,11 @@ public class BatchConfiguration {
     @Autowired
     public StepBuilderFactory stepBuilderFactory;
 
-    @Value("${input.fileUrl}")
-    private String fileUrl;
+    private static final String OVERRIDDEN_BY_EXPRESSION = null;
 
     @Bean
-    public FlatFileItemReader<InputData> reader() throws MalformedURLException {
+    @StepScope
+    public FlatFileItemReader<InputData> reader(@Value("#{jobParameters[inputFileUrl]}") String fileUrl) throws MalformedURLException {
         return new FlatFileItemReaderBuilder<InputData>()
                 .name("batchDataItemReader")
                 .resource(new FileUrlResource(fileUrl))
@@ -80,7 +81,7 @@ public class BatchConfiguration {
     public Step step1(JdbcBatchItemWriter<InputData> writer) throws MalformedURLException {
         return stepBuilderFactory.get("step1")
                 .<InputData, InputData> chunk(5)
-                .reader(reader())
+                .reader(reader(OVERRIDDEN_BY_EXPRESSION))
                 .processor(processor())
                 .writer(writer)
                 .build();
