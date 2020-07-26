@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 Sample for Spring batch using command line job runner. This program will be run with the script provided below:
+=======
+Sample for Spring batch using command line job runner. This program willbe run with the script provided below:
+>>>>>>> aded75e4f309344e22d6a16979ee9abaa3f11e1f
 
 ```shell
 #!/bin/bash
@@ -37,6 +41,7 @@ This program will run a spring batch job ( **job name** provided in **JOBNAME** 
 
 ```
 2020-07-26 15:32:47.361  INFO 3404 --- [           main] .e.b.l.JobCompletionNotificationListener : FOUND <InputData(id=7, subscriberId=78901234, productName=abc, amount=15.23)> in the database
+<<<<<<< HEAD
 ```
 
 The input file required for this program should be in the below format:
@@ -50,4 +55,6 @@ id,subscriber_id,prod_name,amount
 5,56789012,XYZ,78.56
 6,67890123,DEF,34.45
 7,78901234,ABC,15.23
+=======
+>>>>>>> aded75e4f309344e22d6a16979ee9abaa3f11e1f
 ```
